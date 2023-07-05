@@ -16,7 +16,7 @@ nltk.download('wordnet')
 from nltk.tokenize import word_tokenize
 import re
 
-#import tensorflow as tf
+import tensorflow as tf
 import tensorflow_hub as hub
 
 def tokenizer_fct(sentence) :
