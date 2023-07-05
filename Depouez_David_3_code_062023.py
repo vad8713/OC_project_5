@@ -89,7 +89,7 @@ def process_log_regression_model(x, y, isfit=False, isScore=True):
         
     return xreduct, ypred, score
 
-@st.cache
+@st.cache_ressource(ttl=24*3600)
 def long_running_function():
     # load models
     le = load(labels_filename)
