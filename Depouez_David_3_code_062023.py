@@ -11,7 +11,7 @@ from joblib import load
 import nltk
 nltk.download('punkt')
 nltk.download('omw-1.4')
-nltk.download('stopwords')
+#nltk.download('stopwords')
 nltk.download('wordnet')
 from nltk.tokenize import word_tokenize
 import re
@@ -32,12 +32,8 @@ def retokenizer_fct(tokens) :
     return word_tokens
 
 # Stop words
-from nltk.corpus import stopwords
-stop_w = list(set(stopwords.words('english'))) + ['[', ']', ',', '.', ':', '?', '(', ')',';','!','<','>']
-
-def stop_word_filter_fct(list_words) :
-    filtered_w = [w for w in list_words if not w in stop_w]
-    return filtered_w
+#from nltk.corpus import stopwords
+#stop_w = list(set(stopwords.words('english'))) + ['[', ']', ',', '.', ':', '?', '(', ')',';','!','<','>']
 
 # lower case et alpha
 def lower_start_fct(list_words) :
@@ -45,14 +41,6 @@ def lower_start_fct(list_words) :
     #                                   and (not w.startswith("#"))
                                        and (not w.startswith("http"))]
     return lw
-
-# Lemmatizer (base d'un mot)
-from nltk.stem import WordNetLemmatizer
-
-def lemma_fct(list_words) :
-    lemmatizer = WordNetLemmatizer()
-    lem_w = [lemmatizer.lemmatize(w) for w in list_words]
-    return lem_w
 
 # remove code and tags in pattern : <code> code </code>)
 def removeCodeMarkup(sentence):
@@ -66,30 +54,6 @@ def removeHTML(sentence):
     htmlMarkupRegEx = '<.*?>'
     cleanText = re.sub(htmlMarkupRegEx,'',sentence)
     return cleanText
-
-# Fonction de préparation du texte pour le bag of words (Countvectorizer et Word2Vec)
-def transform_bow_fct(desc_text) :
-    sentence = removeCodeMarkup(desc_text)
-    sentence = removeHTML(sentence)
-    word_tokens = tokenizer_fct(sentence)
-    lw = lower_start_fct(word_tokens)
-    sw = stop_word_filter_fct(lw)
-    re_sw = retokenizer_fct(sw)
-    # lem_w = lemma_fct(re_sw)    
-    transf_desc_text = ' '.join(re_sw)
-    return transf_desc_text
-
-# Fonction de préparation du texte pour le bag of words avec lemmatization
-def transform_bow_lem_fct(desc_text) :
-    sentence = removeCodeMarkup(desc_text)
-    sentence = removeHTML(sentence)
-    word_tokens = tokenizer_fct(sentence)
-    lw = lower_start_fct(word_tokens)
-    sw = stop_word_filter_fct(lw)
-    re_sw = retokenizer_fct(sw)
-    lem_w = lemma_fct(re_sw)    
-    transf_desc_text = ' '.join(lem_w)
-    return transf_desc_text
 
 # Fonction de préparation du texte pour le Deep learning (USE et BERT)
 def transform_dl_fct(desc_text) :
@@ -132,5 +96,5 @@ st.write("""
 """)
 
 entryText = st.text_input('Enter text below :')
-formatedText = transform_bow_lem_fct(entryText)
+formatedText = transform_dl_fct(entryText)
 st.write("**Formated text is** :\n", formatedText)
