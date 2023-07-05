@@ -16,6 +16,9 @@ nltk.download('wordnet')
 from nltk.tokenize import word_tokenize
 import re
 
+#import tensorflow as tf
+import tensorflow_hub as hub
+
 def tokenizer_fct(sentence) :
     # print(sentence)
     #sentence_clean = sentence.replace('-', ' ').replace('+', ' ').replace('/', ' ').replace('#', ' ')
@@ -75,7 +78,7 @@ def long_running_function():
     lr = load(logreg_filename)
     
     # load USE model
-    #embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
+    embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
     #embed = hub.load("local-universal-sentence-encoder_4")
     
     #return le,scaler,pca,lr,embed
@@ -98,3 +101,4 @@ st.write("""
 entryText = st.text_input('Enter text below :')
 formatedText = transform_dl_fct(entryText)
 st.write("**Formated text is** :\n", formatedText)
+feat = embed([formatedText])
