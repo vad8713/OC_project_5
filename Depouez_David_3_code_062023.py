@@ -98,4 +98,6 @@ def transform_dl_fct(desc_text) :
 st.write("""
 # Test app
 """)
-
+entryText = st.text_input('Enter text below :')
+formatedText = transform_bow_lem_fct(entryText)
+#st.write("**Formated text is** :\n", formatedText)
