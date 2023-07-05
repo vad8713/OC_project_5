@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 import numpy as np
+import streamlit as st
+
 from sklearn import preprocessing
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.linear_model import LogisticRegression
 from joblib import load
 
-import streamlit as st
 import nltk
 nltk.download('punkt')
 nltk.download('omw-1.4')
@@ -98,9 +102,27 @@ def transform_dl_fct(desc_text) :
     transf_desc_text = ' '.join(lw)
     return transf_desc_text
 
+@st.cache
+def long_running_function():
+    # load models
+    le = load(labels_filename)
+    scaler = load(scaler_filename)
+    pca = load(pca_filename)
+    lr = load(logreg_filename)
+    
+    # load USE model
+    #embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
+    embed = hub.load("local-universal-sentence-encoder_4")
+    
+    return le,scaler,pca,lr,embed
+
 # add models
 labels_filename = 'labelsEncoder.joblib'
-le = load(labels_filename)
+scaler_filename = 'scale.joblib'
+pca_filename = 'pca.joblib'
+logreg_filename = 'logisticRegression.joblib'
+
+le,scaler,pca,lr,embed = long_running_function()
 st.write("labels classes are : ",le.classes_)
 
 st.write("""
