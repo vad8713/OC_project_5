@@ -69,6 +69,26 @@ def transform_dl_fct(desc_text) :
     transf_desc_text = ' '.join(lw)
     return transf_desc_text
 
+def process_log_regression_model(x, y, isfit=False, isScore=True):
+
+    if isfit == True:
+        print("Processing Logistic Regression with fit")
+        xscaled = scaler.fit_transform(x)
+        xreduct = pca.fit_transform(xscaled)
+        lr.fit(xreduct, y)
+    else:
+        print("Processing Logistic Regression")
+        xscaled = scaler.transform(x)
+        xreduct = pca.transform(xscaled)
+    
+    ypred = lr.predict(xreduct)
+    if isScore == True:
+        score = np.round(lr.score(xreduct,y),2)
+    else:
+        score = 0
+        
+    return xreduct, ypred, score
+
 @st.cache
 def long_running_function():
     # load models
@@ -98,5 +118,8 @@ st.write("""
 
 entryText = st.text_input('Enter text below :')
 formatedText = transform_dl_fct(entryText)
-st.write("**Formated text is** :\n", formatedText)
+#st.write("**Formated text is** :\n", formatedText)
 feat = embed([formatedText])
+x, ypred, score = process_log_regression_model(feat,0,isScore=False)
+label = le.inverse_transform(ypred)
+st.write("**Suggested Labels is** :\n", label[0])
