@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 from sklearn import preprocessing
+from joblib import load
+
 import streamlit as st
 import nltk
 nltk.download('punkt')
