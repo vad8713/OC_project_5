@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
+from sklearn import preprocessing
 import streamlit as st
 import nltk
 nltk.download('punkt')
@@ -95,9 +96,15 @@ def transform_dl_fct(desc_text) :
     transf_desc_text = ' '.join(lw)
     return transf_desc_text
 
+# add models
+labels_filename = 'labelsEncoder.joblib'
+le = load(labels_filename)
+st.write("labels classes are : ",le.classes_)
+
 st.write("""
 # Test app
 """)
+
 entryText = st.text_input('Enter text below :')
 formatedText = transform_bow_lem_fct(entryText)
 st.write("**Formated text is** :\n", formatedText)
