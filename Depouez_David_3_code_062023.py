@@ -112,9 +112,10 @@ def long_running_function():
     
     # load USE model
     #embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
-    embed = hub.load("local-universal-sentence-encoder_4")
+    #embed = hub.load("local-universal-sentence-encoder_4")
     
-    return le,scaler,pca,lr,embed
+    #return le,scaler,pca,lr,embed
+    return le,scaler,pca,lr
 
 # add models
 labels_filename = 'labelsEncoder.joblib'
@@ -122,7 +123,8 @@ scaler_filename = 'scale.joblib'
 pca_filename = 'pca.joblib'
 logreg_filename = 'logisticRegression.joblib'
 
-le,scaler,pca,lr,embed = long_running_function()
+#le,scaler,pca,lr,embed = long_running_function()
+le,scaler,pca,lr = long_running_function()
 st.write("labels classes are : ",le.classes_)
 
 st.write("""
