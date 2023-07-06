@@ -116,10 +116,13 @@ st.write("""
 # Test app
 """)
 
-entryText = st.text_input('Enter text below :')
-formatedText = transform_dl_fct(entryText)
-#st.write("**Formated text is** :\n", formatedText)
-feat = embed([formatedText])
-x, ypred, score = process_log_regression_model(feat,0,isScore=False)
-label = le.inverse_transform(ypred)
-st.write("**Suggested Labels is** :\n", label[0])
+entryText = st.text_input('Enter text below :', value = "")
+if entryText != "":
+    formatedText = transform_dl_fct(entryText)
+    #st.write("**Formated text is** :\n", formatedText)
+    feat = embed([formatedText])
+    x, ypred, score = process_log_regression_model(feat,0,isScore=False)
+    label = le.inverse_transform(ypred)[0]
+else:
+    label = ""
+st.write("**Suggested Labels is** :\n", label)
