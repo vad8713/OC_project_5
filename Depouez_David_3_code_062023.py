@@ -113,7 +113,7 @@ le,scaler,pca,lr,embed = long_running_function()
 #st.write("labels classes are : ",le.classes_)
 
 st.write("""
-# Test app
+# Tag proposal application
 """)
 
 entryText = st.text_input('Enter text below :', value = "")
